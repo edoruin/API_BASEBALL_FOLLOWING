@@ -1,22 +1,28 @@
+"""
+    Codigo de Streamlit, 
+    servidor para mostrar los datos extraidos de 
+    las APIs.
 
+"""
+#Librerias
 import streamlit as st
 import plotly.express as px
 import pandas as pd
 import numpy as np 
+import requests
 
+equipos = pd.read_csv('data/stats_equipos_39_2023.csv')
+jugadores = pd.read_csv('data/ligas_futbol.csv')
+equipos.describe(include='all')
+jugadores.describe(include='all')
 
-ligas = pd.read_csv('data/ligas_futbol.csv')
-ligas.describe(include='all')
-
-import pandas as pd
-# import requests  # Descomenta esto cuando uses la API real
 
 # --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(page_title="Dashboard Fútbol", layout="wide")
 
 # --- TÍTULO Y ENCABEZADO ---
-st.title("⚽ Analítica de Fútbol Pro")
-st.markdown("Explora las estadísticas de los mejores jugadores de la temporada.")
+st.title("Dashboard de Crecimiento de la Premier League")
+st.markdown("Explora las estadísticas de los mejores equipos y jugadores de la temporada.")
 
 # --- 1. FUNCIÓN DE CARGA DE DATOS ---
 # Usamos @st.cache_data para que no llame a la API cada vez que cambias un filtro
@@ -33,16 +39,13 @@ def cargar_datos():
     df = pd.DataFrame(data)
 
     # --- MODO REAL (TU CÓDIGO DE API) ---
-    # Si tuvieras la API Key, aquí iría el request:
-    # url = "https://v3.football.api-sports.io/players/topscorers?league=39&season=2023"
-    # headers = {'x-apisports-key': 'TU_KEY'}
-    # response = requests.get(url, headers=headers).json()
-    # ... lógica para crear el DataFrame ...
+   
 
     return df
 
 # Cargamos los datos
 df = cargar_datos()
+
 
 # --- 2. BARRA LATERAL (SIDEBAR) - FILTROS ---
 st.sidebar.header("Filtros")
