@@ -14,8 +14,8 @@ Asegúrate de tener instalado **Python** (versión 3.8 o superior) y una **clave
 
 1.  **Clonar el repositorio** (si aplica):
     ```bash
-    git clone [URL_DE_TU_REPOSITORIO]
-    cd [nombre_del_directorio]
+    git clone https://github.com/edoruin/API_BASEBALL_FOLLOWING
+    cd API_BASEBALL_FOLLOWING
     ```
 
 2.  **Crear y activar un entorno virtual** (recomendado):
@@ -27,8 +27,7 @@ Asegúrate de tener instalado **Python** (versión 3.8 o superior) y una **clave
 
 3.  **Instalar las dependencias de Python**:
     ```bash
-    pip install streamlit requests pandas
-    # Podrías necesitar alguna librería específica para el manejo de datos si decides expandir
+    pip install -r requirements.txt
     ```
 
 4.  **Configurar la clave API**:
@@ -60,7 +59,7 @@ El proyecto consta de dos componentes principales:
 
 ## 💻 Uso
 
-Para ejecutar la aplicación, navega hasta el directorio raíz del proyecto y ejecuta el siguiente comando:
+Para ejecutar la aplicación, navega hasta el directorio raíz del proyecto en la terminal y ejecuta el siguiente comando:
 
 ```bash
-streamlit run app.py  # Asumiendo que tu archivo principal de Streamlit se llama app.py
+streamlit run app.py  
