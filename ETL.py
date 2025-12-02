@@ -8,6 +8,7 @@
 import requests
 import toml
 import pandas as pd
+import streamlit as st #para utilizar el cache 
 
 #--- IMPORTAR EL APIKEY---
 def API_detalles():
@@ -55,10 +56,13 @@ def json_a_df(keys):
 
 # response = requests.get(f"{base_url}/leagues", headers=Headers) #datos de ligas
 
+@st.cache_data(ttl=3600) #no vuelve a llamar la funcion si pides los mismos argumentos
 def Obtener_juegos(temporada):
 
     """
-    Docstring for Obtener_juegos
+    Docstring for Obtener_juegos:
+        Extraccion de datos de los juegos
+        que se han disputado por temporada
     
     :param temporada:  
         Escoge la temporada que quieres extraer
@@ -76,12 +80,10 @@ def Obtener_juegos(temporada):
         params=params
     )
 
+    resp_games.raise_for_status() #notificacion ante error http
+
     juegos = resp_games.json()
 
     juegos_df = json_a_df(juegos)
 
     return juegos_df
-
-
-
-
