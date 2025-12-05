@@ -80,9 +80,8 @@ def Obtener_juegos(temporada):
         headers=Headers,
         params=params
     )
-
-    resp_games.raise_for_status() #notificacion ante error http
-
+    resp_games.raise_for_status()
+   
     juegos = resp_games.json()
 
     juegos_df = json_a_df(juegos)
@@ -109,3 +108,36 @@ def Comparar_equipo(temporada, equipo):
 
     equipo_df = pd.DataFrame(equipo)
     return equipo_df
+
+
+
+def Estadisticas(df):
+    """
+    Recibe un df y devuelve las
+    variables estadisticas como variables
+    """
+
+    total_hits = df['scores.home.hits'].count() + df['scores.away.hits'].count() #0
+    total_runs = df['scores.home.total'].count() + df['scores.away.total'].count()#1
+    total_errors = df['scores.home.errors'].count() + df['scores.away.errors'].count()#2
+
+    mean_hits = total_hits.mean() #3
+    mean_runs = total_runs.mean() #4
+    mean_errors = total_errors.mean() #5
+    
+    total_hits = int(total_hits)
+    total_runs = int(total_runs)
+    total_errors = int(total_errors)
+
+   
+
+
+    #match statistics
+    finished = df[df['status.short']=='FT']['status.short'].count()#6
+    scheduled = df[df['status.short']=='NS']['status.short'].count()#7
+    total_matches = finished + scheduled#8
+
+
+    Statistics = [total_errors,total_runs,total_errors,mean_hits,mean_runs,mean_errors,finished,scheduled,total_matches]
+
+    return Statistics# arreglo de estadisticas

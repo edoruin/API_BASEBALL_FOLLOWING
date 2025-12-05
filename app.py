@@ -113,21 +113,20 @@ st.markdown("Seleccione equipo y temporada")
 col1, col2 = st.columns(2)
 
 
-st.header("Selecciona la temporada")
+st.header("Datos del primer equipo")
 año_seleccionado = st.number_input(
 "temporada del equipo 1",
 min_value=0,
 max_value=3000,
 value=None, # Por defecto busca todos
 step=1)
-st.header("Selecciona el primer equipo a comparar")
+
 equipo_box = st.selectbox(
     'seleccionar equipo1',
     opciones_equipos
 )
 
-
-st.header("Selecciona la temporada")
+st.header("Datos del segundo equipo")
 año_seleccionado2 = st.number_input(
 "temporada del equipo 2",
 min_value=0,
@@ -135,7 +134,6 @@ max_value=3000,
 value=None, # Por defecto busca todos
 step=1)
 
-st.header("Selecciona el equipo")
 equipo_box2 = st.selectbox(
     'Selecciona equipo2',
     opciones_equipos
@@ -157,13 +155,34 @@ if st.button("Comparar"): # Logica para añadir el resultado que usuario introdu
             logo = equipo_selected['teams.home.logo'].unique()            #equipo 1
             name = equipo_selected['teams.home.name'].unique()
             st.image(logo[0],caption=name,width=200)
-            st.dataframe(equipo_selected)
+
+            #grafico estrella
+            Statistics = ETL.Estadisticas(equipo_selected)
+            estadisticas = pd.DataFrame({
+                    'Estadística': ['Hits','Carreras','Errores defensivos'],
+                    'Valor': [Statistics[0],Statistics[1],Statistics[2]]
+                })
+            
+            fig = px.line_polar(
+                    estadisticas, 
+                    r='Valor',
+                    theta='Estadística',
+                    line_close=True,
+                    title=f"Rendimiento de {name[0]} en Estadísticas Clave",
+                    # Configuración de apariencia y rango directamente aquí:
+                    range_r=[0, 100]  # Configura el rango radial (equivalente a range=[0, 5])
+            )
+
+            # 2. Aplicar el estilo del polígono (fill y color)
+            fig.update_traces(fill='toself', line_color='blue')
+
+            # 3. Mostrar el gráfico en Streamlit
+            st.plotly_chart(fig, use_container_width=True)
 
         with col2:
             logo2 = equipo_selected2['teams.home.logo'].unique()            #equipo 2
             name2 = equipo_selected2['teams.home.name'].unique()
             st.image(logo2[0],caption=name2,width=200)
-            st.dataframe(equipo_selected)
 
     else:
         st.warning(f"En {name} no existe la temporada{año_seleccionado}")
