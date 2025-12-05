@@ -3,6 +3,7 @@
     Flujo de procesamiento 
     de los datos recibidor por la APIs
 
+
 """
 
 import requests
@@ -87,3 +88,24 @@ def Obtener_juegos(temporada):
     juegos_df = json_a_df(juegos)
 
     return juegos_df
+
+
+
+
+@st.cache_data(ttl=3600) 
+def Comparar_equipo(temporada, equipo):
+
+    """
+    Docstring for Obtener_juegos:
+        Extraccion de datos de los juegos
+        por equipo que se han disputado por temporada
+    
+    :param temporada:  
+        Escoge la temporada que quieres extraer
+        Escoge el Equipo que quieres Extraer
+    """
+    data = Obtener_juegos(temporada)
+    equipo = data[data['teams.home.name'] == equipo]
+
+    equipo_df = pd.DataFrame(equipo)
+    return equipo_df

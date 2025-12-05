@@ -24,8 +24,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("Bienvenido a LIDOM Stats Dashboard")
-st.markdown('¿Quien crees que ganara?')
+st.title("Bienvenido a LIDOM Stats Dashboard⚾️⚾️⚾️")
+
 
 st.header("Obtener Juegos por Año")
 st.markdown("Introduce el año que quieres analizar")
@@ -36,7 +36,7 @@ año_seleccionado = st.number_input(
     "Año de los juegos a buscar",
     min_value=0,
     max_value=3000,
-    value=0, # Por defecto busca todos
+    value=None, # Por defecto busca todos
     step=1
 )
 
@@ -58,8 +58,6 @@ if st.button("Buscar"): # Logica para añadir el resultado que usuario introduzc
     st.success("¡Petición completada!")
 
     if not juegos.empty: #si existe informacion en el año solicitado
-
-        st.dataframe(juegos, use_container_width=True)
         st.header('RANKINGS')
         st.markdown("---")
         col1, col2 = st.columns(2) # creando dos columnas
@@ -95,4 +93,83 @@ if st.button("Buscar"): # Logica para añadir el resultado que usuario introduzc
         
     else:
         st.warning(f"No se encontraron juegos para el año {año_seleccionado}.")
+
+st.markdown("---")
+st.markdown("---")
+
+opciones_equipos = [ #para los menus desplegables
+    '--seleccionar--',
+    'Aguilas Cibaenas',
+    'Estrellas Orientales',
+    'Tigres del Licey',
+    'Toros del Este',
+    'Leones del Escogido',
+    'Gigantes del Cibao'
+]
+
+st.header("Compara tus equipos")
+st.markdown("Seleccione equipo y temporada")
+
+col1, col2 = st.columns(2)
+
+
+st.header("Selecciona la temporada")
+año_seleccionado = st.number_input(
+"temporada del equipo 1",
+min_value=0,
+max_value=3000,
+value=None, # Por defecto busca todos
+step=1)
+st.header("Selecciona el primer equipo a comparar")
+equipo_box = st.selectbox(
+    'seleccionar equipo1',
+    opciones_equipos
+)
+
+
+st.header("Selecciona la temporada")
+año_seleccionado2 = st.number_input(
+"temporada del equipo 2",
+min_value=0,
+max_value=3000,
+value=None, # Por defecto busca todos
+step=1)
+
+st.header("Selecciona el equipo")
+equipo_box2 = st.selectbox(
+    'Selecciona equipo2',
+    opciones_equipos
+)
+
+
+if st.button("Comparar"): # Logica para añadir el resultado que usuario introduzca
+    if (año_seleccionado > 0 and equipo_box is not None 
+        and año_seleccionado2 > 0 and equipo_box2 is not None):
+        st.success("¡Petición completada!")
+        st.subheader(f"Buscando la temporada {año_seleccionado} del {equipo_box}")
+        equipo_selected = ETL.Comparar_equipo(temporada=int(año_seleccionado),equipo=str(equipo_box))
+        equipo_selected2 = ETL.Comparar_equipo(temporada=int(año_seleccionado2),equipo=str(equipo_box2))
+
+
+        col1,col2 = st.columns(2)
+        with col1:
+            #equipo graficos comparativos
+            logo = equipo_selected['teams.home.logo'].unique()            #equipo 1
+            name = equipo_selected['teams.home.name'].unique()
+            st.image(logo[0],caption=name,width=200)
+            st.dataframe(equipo_selected)
+
+        with col2:
+            logo2 = equipo_selected2['teams.home.logo'].unique()            #equipo 2
+            name2 = equipo_selected2['teams.home.name'].unique()
+            st.image(logo2[0],caption=name2,width=200)
+            st.dataframe(equipo_selected)
+
+    else:
+        st.warning(f"En {name} no existe la temporada{año_seleccionado}")
+        st.warning(f"En {name2} no existe la temporada{año_seleccionado2}")
+
+
+
+
 
