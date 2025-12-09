@@ -31,8 +31,23 @@ Asegúrate de tener instalado **Python** (versión 3.8 o superior) y una **clave
     ```
 
 4.  **Configurar la clave API**:
-    * Crea un archivo llamado `.streamlit/secrets.toml` y agrega tu clave API.
-    * **Alternativa simple (para pruebas)**: Exporta tu clave API como una variable de entorno llamada $\text{API\_KEY}$.
+    * Crea un archivo llamado `secrets.toml` en el directorio raiz del proyecto y agrega tu clave API, dentro:
+
+    * template de archivo .toml:
+        ```python
+        # config.toml
+
+        # La clave API se guarda dentro de una sección [api]. 
+        
+
+        [api] #seccion de apis
+        clave_secreta = "225c2dfa4da399ddaf2adc138cfe82ef"
+
+
+        #URL base de la pagina(version1) MANTENER IGUAL
+        base_url = "https://v1.baseball.api-sports.io"
+
+        ```
 
 ---
 
@@ -40,20 +55,17 @@ Asegúrate de tener instalado **Python** (versión 3.8 o superior) y una **clave
 
 El proyecto consta de dos componentes principales:
 
-### 1. Obtención de Datos (API-Baseball)
+### 1. Obtención de Datos (ETL.py)
 
 * Utilizamos la librería **`requests`** para hacer llamadas $\text{HTTP}$ a los $\text{endpoints}$ de la $\text{API-Baseball}$.
 * La $\text{API}$ proporciona datos en formato **$\text{JSON}$** sobre estadísticas de equipos, jugadores, partidos en vivo, etc.
-* En este proyecto, un ejemplo de la lógica sería obtener las estadísticas de la temporada actual para un equipo seleccionado.
+* En este proyecto, un ejemplo de la lógica sería obtener las estadísticas de la temporada actual para un equipo seleccionado, utilizamos tres funciones principales apoyadas de dos secundarias:  Obtener_juegos y Comparar_equipo y Estadisticas.
 
-### 2. Visualización (Streamlit)
+### 2. Visualización (App.py)
 
 * **Streamlit** es un framework de Python que convierte scripts de datos en **aplicaciones web interactivas** con solo unas pocas líneas de código.
-* Los datos obtenidos de la $\text{API}$ se cargan en un $\text{DataFrame}$ de **Pandas**.
-* **Elementos clave utilizados**:
-    * **`st.selectbox`**: Para seleccionar el equipo o la temporada.
-    * **`st.dataframe`**: Para mostrar las tablas de estadísticas.
-    * **`st.bar_chart` / `st.line_chart`**: Para crear visualizaciones de datos (ej. carreras anotadas vs. permitidas).
+* Los datos obtenidos de la $\text{API}$ se cargan en un $\text{DataFrame}$ de **Pandas** en ETL.py y son utilizados en app.py
+
 
 ---
 
