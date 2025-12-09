@@ -2,6 +2,11 @@
 
 Un proyecto de ejemplo que utiliza la **API de Béisbol** (`API-Baseball`) para obtener datos y los visualiza a través de un **Dashboard interactivo** creado con **Streamlit** en Python.
 
+
+[LINK DE API-SPORTS(API-BASEBALL)](https://dashboard.api-football.com/register)
+
+[API-BASEBALL DOCUMENTACIÓN](https://api-sports.io/documentation/baseball/v1#tag/Teams)
+
 ---
 
 ## 🛠️ Requisitos e Instalación
