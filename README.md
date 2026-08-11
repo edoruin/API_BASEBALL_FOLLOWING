@@ -46,7 +46,7 @@ Asegúrate de tener instalado **Python** (versión 3.8 o superior) y una **clave
         
 
         [api] #seccion de apis
-        clave_secreta = "225c2dfa4da399ddaf2adc138cfe82ef"
+        clave_secreta = "TU=SECRET"
 
 
         #URL base de la pagina(version1) MANTENER IGUAL
